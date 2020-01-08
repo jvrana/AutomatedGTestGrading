@@ -2,7 +2,7 @@
 
 STUDENTDIR="tmp"            # the output directory for student repos
 CLASSREPO="ECE590"          # the directory for the class repo
-STUDENTREPO="ECE590"        # the name of the student's repo
+STUDENTREPO="AutomatedGTestGradingExample"        # the name of the student's repo
 DIR=$PWD                    # current working directory
 RESULTS="$DIR/results"      # output directory for results
 DUEDATE=""           # the due date of the homework
@@ -90,7 +90,7 @@ function evaluate() {
 ###### SETUP ######
 echo "***** SETUP *****"
 mkdir -p $RESULTS
-pull_repo $CLASSREPO "klavins/ECE520"
+pull_repo $CLASSREPO "klavins/ECEP520"
 echo "***** END SETUP *****"
 echo ""
 

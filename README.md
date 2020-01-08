@@ -206,3 +206,19 @@ HOMEWORK_GRADE: 563/563
 Students have reported positively when uploading this file on Canvas along 
 with their grade. Verbose tests names helps the students recognize
 where they went astray.
+
+### Running Example
+
+Create a `students.csv` deliminated by your `Justin,Vrana,jvrana`
+
+Pull
+
+```bash
+sh pull.sh -i students.csv
+```
+
+Grade
+
+```bash
+sh grade.sh -i students.csv
+```
