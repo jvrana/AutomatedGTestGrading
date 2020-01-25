@@ -1,8 +1,8 @@
 #!/bin/bash
 
 STUDENTDIR="tmp"                    # the output directory for student repos
-CLASSREPO="ECE590"                  # the directory for the class repo
-STUDENTREPO="AutomatedGTestGradingExample"                # the name of the student's repo
+CLASSREPO="EEP520-W20"                  # the directory for the class repo
+STUDENTREPO="520-Assignments"                # the name of the student's repo
 DIR=$PWD                            # current working directory
 RESULTS="$DIR/results"              # output directory for results
 DUEDATE=""                          # the due date of the homework
@@ -58,7 +58,6 @@ function evaluate() {
   fname=$(no_white_space $2)
   login=$(no_white_space $3)
 
-
   cd $DIR
   OUTDIR="${RESULTS}/${HWDIR}"
   mkdir -p $OUTDIR
@@ -76,7 +75,7 @@ function evaluate() {
   git checkout "`git rev-list master -n 1 --first-parent --before=$DUEDATE --date=local`"
   cd $curr
 
-  STUDENTMAIN=$STUDENTDIR/$login/$HWDIR/main.cc
+  STUDENTMAIN=$STUDENTDIR/$login/$HWDIR
   echo $STUDENTMAIN
   if [[ -e $STUDENTMAIN ]];
   then
@@ -94,9 +93,17 @@ function evaluate() {
     cd $STUDENTTARGET
     cp $GRADING/$HWDIR/* .
 
-    # create a new docker container
+    # TODO:
+    # Need to use variables for this
+    cp complex/complex.* .
+    cp fractions/fraction.* .
+
+    # create a new docker container winpty -Xallow-non-tty
     echo "Creating docker container..."
-    CONTAINERID="$(docker run -v $PWD:/source -di klavins/ecep520:cppenv)"
+
+    # To execute this script on a git bash terminal running on a windows 10 machine, use /$PWD:
+    # On a linux machine, use $PWD:
+    CONTAINERID="$(docker run -v /$PWD:/source -di klavins/ecep520:cppenv)"
     echo "Docker container created with id $CONTAINERID"
 
     # does it compile?
@@ -110,9 +117,6 @@ function evaluate() {
     echo "\n=== PASSES TESTS? ===" >> $OUT
     echo "INFO ($login): Checking compilation"
     docker exec $CONTAINERID ./bin/test >> $OUT
-
-
-
 
     # save summary of grades
     grade="$(grep -i $GRADEPATTERN $OUT | cut -d' ' -f 2)"
